@@ -1,0 +1,149 @@
+/* =====================================================
+   GOOGLE FONTS (ALWAYS FIRST)
+===================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* =====================================================
+   TAILWIND DIRECTIVES
+===================================================== */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =====================================================
+   DESIGN TOKENS & THEME
+===================================================== */
+
+@layer base {
+
+  :root {
+    --primary: 222 47% 20%;
+    --primary-foreground: 210 40% 98%;
+
+    --background: 220 20% 97%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 222 47% 20%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 160 84% 39%;
+    --accent-foreground: 0 0% 100%;
+
+    --success: 160 84% 39%;
+    --warning: 38 92% 50%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 222 47% 20%;
+
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(222 47% 20%), hsl(222 47% 35%));
+    --gradient-accent: linear-gradient(135deg, hsl(160 84% 39%), hsl(160 84% 50%));
+    --gradient-hero: linear-gradient(135deg, hsl(222 47% 15%), hsl(200 60% 30%));
+    --gradient-card: linear-gradient(180deg, #fff, #f8fafc);
+
+    /* Shadows */
+    --shadow-card: 0 4px 20px -2px rgb(0 0 0 / 0.08);
+
+    /* Sidebar */
+    --sidebar-background: 222 47% 15%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-accent: 222 47% 25%;
+  }
+
+  .dark {
+    --background: 222 47% 8%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 11%;
+    --border: 222 47% 20%;
+  }
+
+  /* Base reset */
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+/* =====================================================
+   UTILITIES
+===================================================== */
+
+@layer utilities {
+
+  .glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+}
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* =====================================================
+   SCROLLBAR
+===================================================== */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 3px;
+}
