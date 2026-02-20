@@ -17,7 +17,7 @@ import Wallet from "@/pages/admin/Wallet";
 import DigitalTools from "@/pages/admin/DigitalTools";
 import AutoAssignRules from "@/pages/admin/AutoAssignRules";
 import SupervisorMonitor from "@/pages/admin/SupervisorMonitor";
-import AdminProfile from "@/pages/admin/Profile";
+import AdminProfile from "@/pages/admin/AdminProfile";
 
 
 //leads
@@ -105,8 +105,19 @@ import CpPayout from "@/pages/employee/Channel Sales/CpPayout";
 import CpPayment from "@/pages/employee/Channel Sales/CpPayment";
 
 /* ================= PARTNER ================= */
+/* ================= PARTNER ================= */
 import PartnerDashboard from "@/pages/partner/Dashboard";
-import PartnerProfile from "@/pages/partner/Profile";
+import PartnerLeads from "@/pages/partner/Leads";
+import Disbursement from "@/pages/partner/Disbursement";
+import PartnerDocuments from "@/pages/partner/Documents";
+import PartnerLeaderboard from "@/pages/partner/LeaderBoard";
+import Payouts from "@/pages/partner/Payouts";
+import PartnerReports from "@/pages/partner/Reports";
+import PartnerSettings from "@/pages/partner/Settings";
+import  PartnerSupport from "@/pages/partner/Support";
+import PartnerProfile from "@/pages/partner/Partner";
+
+
 /* ================= PROTECTED ROUTE ================= */
 
 function ProtectedRoute({
@@ -143,13 +154,15 @@ export default function AppRouter() {
 
       {/* ================= ADMIN ================= */}
       <Route
-        path="/dashboard/admin"
-        element={
-          <ProtectedRoute role="admin">
-            <DashboardLayout role="admin" />
-          </ProtectedRoute>
-        }
-      >
+     
+  path="/dashboard/admin"
+  element={
+    <ProtectedRoute role="admin">
+      <DashboardLayout />
+    </ProtectedRoute>
+  }
+>
+
         {/* DASHBOARD */}
         <Route index element={<AdminDashboard />} />
 <Route path="profile" element={<AdminProfile />} />
@@ -201,7 +214,7 @@ export default function AppRouter() {
         path="/dashboard/employee"
         element={
           <ProtectedRoute role="employee">
-            <DashboardLayout role="employee" />
+            <DashboardLayout />
           </ProtectedRoute>
         }
       >
@@ -284,20 +297,26 @@ export default function AppRouter() {
         <Route path="profile" element={<Profile />} />
       </Route>
 
-
-    //   {/* ================= PARTNER ================= */}
-      <Route
-        path="/dashboard/partner"
-        element={
-          <ProtectedRoute role="partner">
-            <DashboardLayout role="partner" />
-          </ProtectedRoute>
-        }
-      >
-        <Route path="profile" element={<PartnerProfile />} />
-        <Route index element={<PartnerDashboard />} />
-      </Route>
-
+{/* ================= PARTNER ================= */}
+<Route
+  path="/dashboard/partner"
+  element={
+    <ProtectedRoute role="partner">
+      <DashboardLayout />
+    </ProtectedRoute>
+  }
+>
+  <Route index element={<PartnerDashboard />} />
+  <Route path="profile" element={<PartnerProfile />} />
+  <Route path="leads" element={<PartnerLeads />} />
+  <Route path="disbursements" element={<Disbursement />} />
+  <Route path="payouts" element={<Payouts />} />
+  <Route path="leaderboard" element={<PartnerLeaderboard />} />
+  <Route path="reports" element={<PartnerReports />} />
+  <Route path="documents" element={<PartnerDocuments />} />
+  <Route path="support" element={<PartnerSupport />} />
+  <Route path="settings" element={<PartnerSettings />} />
+</Route>
       {/* FALLBACK */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

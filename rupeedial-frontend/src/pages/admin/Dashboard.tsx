@@ -1,3 +1,5 @@
+
+
 import { useRef, useState, useMemo } from "react";
 import { Lead, LeadStatus, LeadSource } from "@/types";
 import { mockLeads } from "@/lib/mockData";
@@ -24,7 +26,8 @@ import { useAuth } from "@/context/AuthContext";
 import { filterLeadsByRole } from "@/lib/roleFilter";
 
 export default function AdminDashboard() {
-  const { role, userId } = useAuth();
+const { role, user } = useAuth();
+const userId = user?.id;
 
   /* ================= LEADS ================= */
   const [leads, setLeads] = useState<Lead[]>(mockLeads);
@@ -48,7 +51,7 @@ export default function AdminDashboard() {
   >(null);
 
   const kanbanRef = useRef<HTMLDivElement | null>(null);
-
+console.log("ROLE:", role);
   /* ================= UPDATE LEAD STATUS ================= */
   const updateLeadStatus = (leadId: string, status: LeadStatus) => {
     setLeads(prev =>
@@ -72,8 +75,8 @@ export default function AdminDashboard() {
   };
 
   /* ================= RENDER ================= */
-  return (
-    <div className="space-y-8">
+return (
+   <div className="space-y-8 pt-6">
       {/* 🔝 TOP STATS */}
       <DashboardStatsCards />
 

@@ -1,14 +1,22 @@
+
 import { useState, useRef, useEffect } from "react";
 import { User, LogOut } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Link } from "react-router-dom";
 
 export default function Topbar() {
+   
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  if (!user) return null;
+if (!user) {
+  return (
+    <div className="text-sm text-gray-500">
+      Loading user...
+    </div>
+  );
+}
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -33,7 +41,7 @@ export default function Topbar() {
       >
         {/* Avatar */}
         <div className="w-10 h-10 rounded-full 
-                        bg-gradient-to-br from-emerald-500 to-purple-600 
+                        bg-green-800
                         flex items-center justify-center 
                         text-white font-semibold text-sm">
           {user.name?.charAt(0).toUpperCase()}
@@ -53,7 +61,7 @@ export default function Topbar() {
       {open && (
         <div className="absolute right-0 mt-3 w-64 
                         bg-white rounded-2xl shadow-2xl 
-                        border border-gray-100 overflow-hidden z-50">
+                        border border-gray-100 overflow-hidden z-[99999]">
 
           {/* PROFILE LINK */}
           <Link

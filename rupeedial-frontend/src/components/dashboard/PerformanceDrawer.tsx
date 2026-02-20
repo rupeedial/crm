@@ -9,7 +9,7 @@ export function PerformanceDrawer({ open, title, onClose, children }: Props) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex">
+    <div className="fixed inset-0 z-40 flex">
       {/* overlay */}
       <div
         className="absolute inset-0 bg-black/40"

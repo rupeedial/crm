@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         // 🔥 DEFAULT USER (CHANGE ROLE HERE IF NEEDED)
         const defaultUser: AuthUser = {
           id: "EMP-1001",
-          role: "employee",
+          role: "admin",
           name: "Amit Sharma",
           email: "amit.sharma@rupeedial.com",
           phone: "9876543210",
@@ -117,7 +117,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         user,
-        role: user?.role ?? null,
+       role: user?.role as "admin" | "employee" | "partner" | null,
         loading,
         setAuth,
         logout,

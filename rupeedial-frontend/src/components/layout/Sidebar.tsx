@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Users,
@@ -20,10 +21,13 @@ import {
   LifeBuoy,
   Briefcase,
   ChevronDown,
+    CheckCircle, 
 } from "lucide-react";
 
+import { UserRole } from "@/types";
+
 interface Props {
-  role: "admin" | "employee" | "partner";
+  role: UserRole;
 }
 
 /* ================= REUSABLE LINK ================= */
@@ -32,19 +36,22 @@ const SidebarLink = ({
   to,
   icon: Icon,
   label,
+  end = false,
 }: {
   to: string;
   icon: any;
   label: string;
+  end?: boolean;
 }) => (
   <NavLink
     to={to}
+    end={end}
     className={({ isActive }) =>
       `flex items-center gap-3 px-4 py-2 rounded-lg text-sm transition
       ${
         isActive
-          ? "bg-white/15 text-white"
-          : "text-white/70 hover:bg-white/10"
+          ? "bg-green-800 text-white shadow-md"
+          : "text-slate-800 hover:bg-green-100 hover:text-green-700"
       }`
     }
   >
@@ -53,35 +60,46 @@ const SidebarLink = ({
   </NavLink>
 );
 
+
 /* ================= SIDEBAR ================= */
 
 export default function Sidebar({ role }: Props) {
-  const [leadOpen, setLeadOpen] = useState(true);
+    const navigate = useNavigate(); 
+  const [leadOpen, setLeadOpen] = useState(false);
   const [employeeCampaignOpen, setEmployeeCampaignOpen] = useState(false);
   const [adminCampaignOpen, setAdminCampaignOpen] = useState(false);
   const [coordinatorOpen, setCoordinatorOpen] = useState(false);
   const [trainingOpen, setTrainingOpen] = useState(false);
   const [meetingOpen, setMeetingOpen] = useState(false);
   const [channelOpen, setChannelOpen] = useState(false);
-  const [adminUserOpen, setAdminUserOpen] = useState(true);
+  const [adminUserOpen, setAdminUserOpen] = useState(false);
 
   return (
-    <aside className="w-64 bg-gradient-to-b from-slate-900 to-slate-950 text-white flex flex-col">
+ <aside className="w-64 bg-green-50 text-slate-800 flex flex-col border-r border-slate-200 shadow-[4px_0_25px_rgba(0,0,0,0.06)]">
 
-      {/* LOGO */}
-      <div className="px-6 py-5 border-b border-white/10">
-        <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-xl bg-emerald-500 flex items-center justify-center font-bold">
-            ₹
-          </div>
-          <div>
-            <p className="font-bold leading-none">RupeeDial</p>
-            <p className="text-xs text-white/60">
-              {role === "admin" ? "Admin Portal" : "Employee Portal"}
-            </p>
-          </div>
-        </div>
-      </div>
+
+     {/* LOGO */}
+<div className="bg-green-800 px-6 py-5  border-b border-green-200">
+  <div className="flex items-center gap-3">
+
+    {/* Icon */}
+    <div className="w-9 h-9 rounded-xl bg-white text-green-800 flex items-center justify-center font-bold shadow-sm">
+      ₹
+    </div>
+
+    {/* Text */}
+    <div className=" leading-tight">
+      <p className="text-sm font-bold text-white">
+        RupeeDial
+      </p>
+      <p className="text-xs text-white font-bold">
+        {role === "admin" ? "Admin Portal" : "Partner Portal"}
+      </p>
+    </div>
+
+  </div>
+</div>
+
 
       {/* MENU */}
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
@@ -105,7 +123,7 @@ export default function Sidebar({ role }: Props) {
             {/* USERS */}
             <button
               onClick={() => setAdminUserOpen(!adminUserOpen)}
-              className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-white/70 hover:bg-white/10"
+              className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-slate-800 hover:bg-green-100 hover:text-green-700 transition"
             >
               <span className="flex items-center gap-3">
                 <Users className="w-4 h-4" />
@@ -121,19 +139,14 @@ export default function Sidebar({ role }: Props) {
                 <SidebarLink to="/dashboard/admin/bank-users" icon={Building2} label="Bank Users" />
               </div>
             )}
-
-            <SidebarLink to="/dashboard/admin/commissions" icon={Percent} label="Commissions" />
-            <SidebarLink to="/dashboard/admin/leaderboard" icon={Trophy} label="Leaderboard" />
-            <SidebarLink to="/dashboard/admin/settings" icon={Settings} label="Settings" />
-
-            {/* CAMPAIGN INTELLIGENCE (ADMIN ONLY) */}
+  {/* CAMPAIGN INTELLIGENCE (ADMIN ONLY) */}
             <button
               onClick={() => setAdminCampaignOpen(!adminCampaignOpen)}
-              className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-white/70 hover:bg-white/10"
+              className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-slate-800 hover:bg-green-100 hover:text-green-700 transition"
             >
               <span className="flex items-center gap-3">
                 <Megaphone className="w-4 h-4" />
-                Campaign Intelligence
+                Campaign Hub
               </span>
               <ChevronDown className={adminCampaignOpen ? "rotate-180" : ""} />
             </button>
@@ -147,16 +160,23 @@ export default function Sidebar({ role }: Props) {
                 <SidebarLink to="/dashboard/admin/campaign/audience" icon={Users} label="Audience" />
               </div>
             )}
+            <SidebarLink to="/dashboard/admin/commissions" icon={Percent} label="Commissions" />
+            <SidebarLink to="/dashboard/admin/leaderboard" icon={Trophy} label="Leaderboard" />
+            <SidebarLink to="/dashboard/admin/settings" icon={Settings} label="Settings" />
+
+          
           </>
         )}
 
         {/* ================= EMPLOYEE MENU ================= */}
         {role === "employee" && (
+          
           <>
+          
             {/* ================= CAMPAIGN ================= */}
 <button
   onClick={() => setEmployeeCampaignOpen(!employeeCampaignOpen)}
-  className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-white/70 hover:bg-white/10"
+  className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-slate-800 hover:bg-green-100 hover:text-green-700 transition"
 >
   <span className="flex items-center gap-3">
     <Megaphone className="w-4 h-4" />
@@ -199,7 +219,7 @@ export default function Sidebar({ role }: Props) {
             {/* MEETINGS */}
             <button
               onClick={() => setMeetingOpen(!meetingOpen)}
-              className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-white/70 hover:bg-white/10"
+              className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-slate-800 hover:bg-green-100 hover:text-green-700 transition"
             >
               <span className="flex items-center gap-3">
                 <CalendarCheck className="w-4 h-4" />
@@ -219,7 +239,7 @@ export default function Sidebar({ role }: Props) {
             {/* SALES COORDINATOR */}
             <button
               onClick={() => setCoordinatorOpen(!coordinatorOpen)}
-              className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-white/70 hover:bg-white/10"
+              className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-slate-800 hover:bg-green-100 hover:text-green-700 transition"
             >
               <span className="flex items-center gap-3">
                 <Briefcase className="w-4 h-4" />
@@ -238,7 +258,7 @@ export default function Sidebar({ role }: Props) {
             {/* TRAINING */}
             <button
               onClick={() => setTrainingOpen(!trainingOpen)}
-              className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-white/70 hover:bg-white/10"
+              className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-slate-800 hover:bg-green-100 hover:text-green-700 transition"
             >
               <span className="flex items-center gap-3">
                 <Trophy className="w-4 h-4" />
@@ -258,7 +278,7 @@ export default function Sidebar({ role }: Props) {
             {/* LEAD MANAGEMENT */}
             <button
               onClick={() => setLeadOpen(!leadOpen)}
-              className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-white/70 hover:bg-white/10"
+              className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-slate-800 hover:bg-green-100 hover:text-green-700 transition"
             >
               <span className="flex items-center gap-3">
                 <Users className="w-4 h-4" />
@@ -281,7 +301,7 @@ export default function Sidebar({ role }: Props) {
             {/* CHANNEL SALES */}
             <button
               onClick={() => setChannelOpen(!channelOpen)}
-              className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-white/70 hover:bg-white/10"
+              className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm text-slate-800 hover:bg-green-100 hover:text-green-700 transition"
             >
               <span className="flex items-center gap-3">
                 <IndianRupee className="w-4 h-4" />
@@ -306,11 +326,70 @@ export default function Sidebar({ role }: Props) {
             <SidebarLink to="/dashboard/employee/settings" icon={Settings} label="Settings" />
           </>
         )}
+      {/* ================= PARTNER MENU ================= */}
+{role === "partner" && (
+  <>
+  
+
+    <SidebarLink
+      to="/dashboard/partner/leads"
+      icon={Users}
+      label="My Leads"
+    />
+
+    <SidebarLink
+      to="/dashboard/partner/disbursements"
+      icon={CheckCircle}
+      label="Disbursements"
+    />
+
+    <SidebarLink
+      to="/dashboard/partner/payouts"
+      icon={IndianRupee}
+      label="Payouts"
+    />
+
+    <SidebarLink
+      to="/dashboard/partner/leaderboard"
+      icon={Trophy}
+      label="Leaderboard"
+    />
+
+    <SidebarLink
+      to="/dashboard/partner/reports"
+      icon={BarChart3}
+      label="Reports"
+    />
+
+    <SidebarLink
+      to="/dashboard/partner/documents"
+      icon={FileText}
+      label="Documents"
+    />
+
+    <SidebarLink
+      to="/dashboard/partner/support"
+      icon={LifeBuoy}
+      label="Support"
+    />
+
+    <SidebarLink
+      to="/dashboard/partner/settings"
+      icon={Settings}
+      label="Settings"
+    />
+  </>
+)}
+
+
       </nav>
 
-      <div className="px-4 py-4 border-t border-white/10 text-sm text-white/60">
-        ← Switch Role
-      </div>
+   <div
+  onClick={() => navigate("/login")}
+  className="px-4 py-4 border-t border-green-600 text-sm text-white bg-green-800 cursor-pointer hover:bg-green-900 hover:text-white transition"
+>
+  ← Switch Role
+</div>
     </aside>
   );
 }
